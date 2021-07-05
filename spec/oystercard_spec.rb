@@ -5,7 +5,7 @@ describe Oystercard do
   let (:lim) { Oystercard::DEFAULT_LIMIT } 
   let (:min) { Oystercard::MINIMUM_AMOUNT }
   let (:start_journey) { subject.top_up(10) ; subject.touch_in }
-  
+
   it 'Can store money and has default balance' do
     expect(subject).to respond_to(:balance)
   end
@@ -26,7 +26,7 @@ describe Oystercard do
 
   it 'Allows money to be deducted' do
     top_up_fiver
-    expect(subject.deduct(1.50)).to eq(3.50)
+    expect(subject.send(:deduct,1.50)).to eq(3.50)
   end
 
   it 'Has a bool function that checks if card in journey' do
@@ -55,6 +55,6 @@ describe Oystercard do
   it 'Expect touching out to cause fee deduction' do
     start_journey
     subject.touch_out
-    expect(subject.balance).to eq(9)
+    expect { subject.touch_out }.to change{ subject.balance }.by(min * -1)
   end
 end

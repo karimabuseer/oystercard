@@ -12,10 +12,6 @@ class Oystercard
     (raise "Sorry, top-up limit (£#{DEFAULT_LIMIT}) reached") : @balance += topup
   end
 
-  def deduct(cost)
-    @balance -= cost
-  end
-
   def in_journey?
     @in_use
   end
@@ -28,6 +24,12 @@ class Oystercard
   def touch_out
     deduct(MINIMUM_AMOUNT)
     @in_use = false
+  end
+
+  private 
+
+  def deduct(cost)
+    @balance -= cost
   end
 
 end
