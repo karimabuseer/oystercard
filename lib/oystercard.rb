@@ -1,6 +1,7 @@
 class Oystercard
   attr_reader :balance 
   DEFAULT_LIMIT = 90
+  MINIMUM_AMOUNT = 1
   def initialize(balance = 0.00)
     @balance = balance
     @in_use = false
@@ -20,7 +21,8 @@ class Oystercard
   end
 
   def touch_in
-    @in_use = true
+    @balance >= MINIMUM_AMOUNT ?
+    @in_use = true : (raise "Sorry, minimum amount needed of £#{MINIMUM_AMOUNT}")
   end
 
   def touch_out

@@ -2,8 +2,9 @@ require 'oystercard'
 
 describe Oystercard do
   let (:top_up_fiver) { subject.top_up(5.00) }
-  let (:lim) { Oystercard::DEFAULT_LIMIT }
-
+  let (:lim) { Oystercard::DEFAULT_LIMIT } 
+  let (:min) { Oystercard::MINIMUM_AMOUNT }
+  let (:start_journey) { subject.top_up(10) ; subject.touch_in }
   it 'Can store money and has default balance' do
     expect(subject).to respond_to(:balance)
   end
@@ -19,7 +20,7 @@ describe Oystercard do
 
   it "Doesn't allow being topped up over £90" do
     subject.top_up(lim)
-    expect { subject.top_up(0.01) }.to raise_error("Sorry, top-up limit (£#{lim}) reached")
+    expect { top_up_fiver }.to raise_error("Sorry, top-up limit (£#{lim}) reached")
   end
 
   it 'Allows money to be deducted' do
@@ -32,7 +33,7 @@ describe Oystercard do
   end
 
   it 'Touch in sets in journey to true' do
-    subject.touch_in
+    start_journey
     expect(subject.in_journey?).to eq(true)
   end
 
@@ -41,8 +42,12 @@ describe Oystercard do
   end
 
   it 'Touch out sets in journey to false' do
-    subject.touch_in
+    start_journey
     subject.touch_out
     expect(subject.in_journey?).to eq(false)
+  end
+
+  it 'Expect touching in without min amount to raise error' do
+    expect { subject.touch_in }.to raise_error("Sorry, minimum amount needed of £#{min}")
   end
 end
