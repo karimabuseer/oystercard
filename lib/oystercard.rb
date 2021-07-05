@@ -10,7 +10,8 @@ class Oystercard
     (raise "Sorry, top-up limit (£#{DEFAULT_LIMIT}) reached") : @balance += topup
   end
 
-  # def deduct(cost)
-  #   @balance -= cost
-  # end
+  def deduct(cost)
+    @balance -= cost
+  end
+
 end
