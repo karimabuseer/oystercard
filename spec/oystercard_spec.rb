@@ -12,10 +12,10 @@ describe Oystercard do
     expect(subject.balance).to eq(0.00)
   end
 
-  # it 'Can be topped up by a certain amount' do
-  #   top_up_fiver
-  #   expect(subject.balance).to eq(5.00)
-  # end
+  it 'Can be topped up by a certain amount' do
+    top_up_fiver
+    expect(subject.balance).to eq(5.00)
+  end
 
   # it "Doesn't allow being topped up over £90" do
   #   subject.top_up(lim)
