@@ -26,4 +26,8 @@ describe Oystercard do
     top_up_fiver
     expect(subject.deduct(1.50)).to eq(3.50)
   end
+
+  it 'Has a bool function that checks if card in journey' do
+    expect(subject).to respond_to(:in_journey?)
+  end
 end
