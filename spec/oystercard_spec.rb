@@ -5,6 +5,7 @@ describe Oystercard do
   let (:lim) { Oystercard::DEFAULT_LIMIT } 
   let (:min) { Oystercard::MINIMUM_AMOUNT }
   let (:start_journey) { subject.top_up(10) ; subject.touch_in }
+  
   it 'Can store money and has default balance' do
     expect(subject).to respond_to(:balance)
   end
@@ -49,5 +50,11 @@ describe Oystercard do
 
   it 'Expect touching in without min amount to raise error' do
     expect { subject.touch_in }.to raise_error("Sorry, minimum amount needed of £#{min}")
+  end
+
+  it 'Expect touching out to cause fee deduction' do
+    start_journey
+    subject.touch_out
+    expect(subject.balance).to eq(9)
   end
 end

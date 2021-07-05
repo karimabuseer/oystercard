@@ -26,6 +26,7 @@ class Oystercard
   end
 
   def touch_out
+    deduct(MINIMUM_AMOUNT)
     @in_use = false
   end
 
