@@ -4,7 +4,11 @@ describe Oystercard do
   let (:top_up_fiver) { subject.top_up(5.00) }
   let (:lim) { Oystercard::DEFAULT_LIMIT } 
   let (:min) { Oystercard::MINIMUM_AMOUNT }
-  let (:start_journey) { subject.top_up(10) ; subject.touch_in }
+  let (:start_journey) { subject.top_up(10) ; subject.touch_in('East Croydon') }
+  
+  before(:each) do
+    entry_station = double('Trafalgar Square')
+  end
 
   it 'Can store money and has default balance' do
     expect(subject).to respond_to(:balance)
@@ -33,7 +37,7 @@ describe Oystercard do
     expect(subject).to respond_to(:in_journey?)
   end
 
-  xit 'Touch in sets in journey to true' do
+  it 'Touch in sets in journey to true' do
     start_journey
     expect(subject.in_journey?).to eq(true)
   end
@@ -42,17 +46,17 @@ describe Oystercard do
     expect(subject.in_journey?).to eq(false)
   end
 
-  xit 'Touch out sets in journey to false' do
+  it 'Touch out sets in journey to false' do
     start_journey
     subject.touch_out
     expect(subject.in_journey?).to eq(false)
   end
 
-  xit 'Expect touching in without min amount to raise error' do
-    expect { subject.touch_in }.to raise_error("Sorry, minimum amount needed of £#{min}")
+  it 'Expect touching in without min amount to raise error' do
+    expect { subject.touch_in('East Croydon') }.to raise_error("Sorry, minimum amount needed of £#{min}")
   end
 
-  xit 'Expect touching out to cause fee deduction' do
+  it 'Expect touching out to cause fee deduction' do
     start_journey
     subject.touch_out
     expect { subject.touch_out }.to change{ subject.balance }.by(min * -1)
@@ -63,9 +67,8 @@ describe Oystercard do
   end
 
   it 'Expect touch in to store entry station' do
-    entry_station = double('Trafalgar Square')
     subject.top_up(5)
-    subject.touch_in(entry_station)
-    expect(subject.entry_station).to eq(entry_station)
+    subject.touch_in('East Croydon')
+    expect(subject.entry_station).to eq('East Croydon')
   end
 end
