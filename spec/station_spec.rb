@@ -6,7 +6,11 @@ describe Station do
     expect(station).to respond_to(:name)
   end
 
-  it 'has a zone' do
-    expect(station).to respond_to(:zone)
+  it 'sets name' do
+    expect(station.name).to eq('EC')
+  end
+
+  it 'sets zone' do
+    expect(station.zone).to eq(5)
   end
 end
