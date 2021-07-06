@@ -4,7 +4,10 @@ describe Oystercard do
   let (:top_up_fiver) { subject.top_up(5.00) }
   let (:lim) { Oystercard::DEFAULT_LIMIT } 
   let (:min) { Oystercard::MINIMUM_AMOUNT }
-  let (:start_journey) { subject.top_up(10) ; subject.touch_in('East Croydon') }
+  let (:start_journey) { subject.top_up(10) ; subject.touch_in(entry_station) }
+  let (:exit_station) { double :station }
+  let (:entry_station) { double :station } 
+  
   
   before(:each) do
     entry_station = double('Trafalgar Square')
@@ -48,18 +51,17 @@ describe Oystercard do
 
   it 'Touch out sets in journey to false' do
     start_journey
-    subject.touch_out
+    subject.touch_out(exit_station)
     expect(subject.in_journey?).to eq(false)
   end
 
   it 'Expect touching in without min amount to raise error' do
-    expect { subject.touch_in('East Croydon') }.to raise_error("Sorry, minimum amount needed of £#{min}")
+    expect { subject.touch_in(entry_station) }.to raise_error("Sorry, minimum amount needed of £#{min}")
   end
 
   it 'Expect touching out to cause fee deduction' do
     start_journey
-    subject.touch_out
-    expect { subject.touch_out }.to change{ subject.balance }.by(min * -1)
+    expect { subject.touch_out(exit_station) }.to change{ subject.balance }.by(min * -1)
   end
 
   it 'Expect touch in to require an argument' do
@@ -68,13 +70,34 @@ describe Oystercard do
 
   it 'Expect touch in to store entry station' do
     subject.top_up(5)
-    subject.touch_in('East Croydon')
-    expect(subject.entry_station).to eq('East Croydon')
+    subject.touch_in(entry_station)
+    expect(subject.entry_station).to eq(entry_station)
   end
 
   it 'Expect touch out to set entry station to nil' do
     start_journey
-    subject.touch_out
+    subject.touch_out(exit_station)
     expect(subject.entry_station).to eql(nil)
   end
+
+  it 'Expect touch out to take an argument' do
+    expect(subject).to respond_to(:touch_out).with(1).argument
+  end
+
+  it 'Will store journey on touch out' do
+    start_journey
+    subject.touch_out(exit_station)
+    expect(subject.journey_history[0]).to include(entry_station)
+  end
+
+  it 'Will store journey on touch out' do
+    start_journey
+    subject.touch_out(exit_station)
+    expect(subject.journey_history).to include(entry_station => exit_station)
+  end
+
+  it 'Journeys will be empty be default' do
+    expect(subject.journey_history).to eq([])
+  end
+
 end
