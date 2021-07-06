@@ -1,10 +1,11 @@
 class Oystercard
-  attr_reader :balance 
+  attr_reader :balance , :entry_station
   DEFAULT_LIMIT = 90
   MINIMUM_AMOUNT = 1
   def initialize(balance = 0.00)
     @balance = balance
     @in_use = false
+    @entry_station
   end
 
   def top_up(topup)
@@ -16,7 +17,8 @@ class Oystercard
     @in_use
   end
 
-  def touch_in
+  def touch_in(entry_station)
+    @entry_station = entry_station 
     @balance >= MINIMUM_AMOUNT ?
     @in_use = true : (raise "Sorry, minimum amount needed of £#{MINIMUM_AMOUNT}")
   end
