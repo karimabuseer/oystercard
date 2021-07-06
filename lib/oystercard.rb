@@ -13,10 +13,13 @@ class Oystercard
   end
 
   def top_up(topup)
-    @balance + topup > DEFAULT_LIMIT ? 
-    (raise "Sorry, top-up limit (£#{DEFAULT_LIMIT}) reached") : @balance += topup
+    top_up_limit(topup)
+    @balance += topup
   end
 
+  def top_up_limit(topup)
+    raise "Sorry, top-up limit (£#{DEFAULT_LIMIT}) reached" if @balance + topup > DEFAULT_LIMIT
+  end
 
   def in_journey?
     !@current_journey.nil?
