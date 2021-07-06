@@ -99,5 +99,4 @@ describe Oystercard do
   it 'Journeys will be empty be default' do
     expect(subject.journey_history).to eq([])
   end
-
 end
