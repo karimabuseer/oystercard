@@ -71,7 +71,7 @@ describe Oystercard do
   it 'Expect touch in to store entry station' do
     subject.top_up(5)
     subject.touch_in(entry_station)
-    expect(subject.entry_station).to eq(entry_station)
+    expect(subject.current_journey.entry_station).to eq(entry_station)
   end
 
   it 'Expect touch out to set entry station to nil' do
