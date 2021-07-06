@@ -71,4 +71,10 @@ describe Oystercard do
     subject.touch_in('East Croydon')
     expect(subject.entry_station).to eq('East Croydon')
   end
+
+  it 'Expect touch out to set entry station to nil' do
+    start_journey
+    subject.touch_out
+    expect(subject.entry_station).to eql(nil)
+  end
 end

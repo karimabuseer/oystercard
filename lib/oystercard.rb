@@ -4,7 +4,6 @@ class Oystercard
   MINIMUM_AMOUNT = 1
   def initialize(balance = 0.00)
     @balance = balance
-    @in_use = false
     @entry_station
   end
 
@@ -14,18 +13,17 @@ class Oystercard
   end
 
   def in_journey?
-    @in_use
+    !@entry_station.nil?
   end
 
-  def touch_in(entry_station)
-    @entry_station = entry_station 
-    @balance >= MINIMUM_AMOUNT ?
-    @in_use = true : (raise "Sorry, minimum amount needed of £#{MINIMUM_AMOUNT}")
+  def touch_in(entry_station) 
+     (raise "Sorry, minimum amount needed of £#{MINIMUM_AMOUNT}") if @balance < MINIMUM_AMOUNT
+     @entry_station = entry_station
   end
 
   def touch_out
     deduct(MINIMUM_AMOUNT)
-    @in_use = false
+    @entry_station = nil
   end
 
   private 
