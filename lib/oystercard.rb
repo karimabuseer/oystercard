@@ -1,5 +1,5 @@
 require_relative 'station'
-require_relative 'journey'
+require_relative 'journey_log'
 
 class Oystercard
   attr_reader :balance , :entry_station, :current_journey
@@ -8,8 +8,8 @@ class Oystercard
 
   def initialize(balance = 0.00)
     @balance = balance
-    @journey_history = []
     @current_journey
+    @journey_history = JourneyLog.new
   end
 
   def top_up(topup)
@@ -27,7 +27,7 @@ class Oystercard
 
   def touch_in(entry_station)
     minimum_check
-    @current_journey = Journey.new(entry_station) 
+    @journey_history.start(entry_station)
   end
 
   def minimum_check
@@ -35,18 +35,12 @@ class Oystercard
   end
 
   def touch_out(exit_station)
-    @current_journey.leave_station(exit_station)
-    deduct(@current_journey.fare)
-    update_history
+    @journey_history.finish(exit_station)
+    deduct(@journey_history.fare)
   end
 
   def journey_history
-    @journey_history
-  end
-
-  def update_history
-    @journey_history << current_journey.log
-    @current_journey = nil
+    @journey_history.journeys
   end
 
   private 

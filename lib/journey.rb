@@ -16,7 +16,7 @@ class Journey
     @entry_station && exit_station ? MINIMUM_FARE : PENALTY_FARE
   end
 
-  def log
+  def record
     { entry_station => exit_station }
   end
 
