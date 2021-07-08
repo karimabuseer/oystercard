@@ -17,5 +17,21 @@ describe JourneyLog do
     expect(subject.journey_class.entry_station).to eq(station)
   end
 
+  it 'is expected to store entrance and exit station' do
+    subject.finish(station)
+    expect(subject.journey_class.exit_station).to eq(station)
+  end
+
+  it 'is expected to create record of Journey' do
+    subject.start(station)
+    subject.finish(station)
+    expect(subject.journeys).to include{station => station}
+  end
+
+  it '#fare returns penalty if no entry station' do
+    subject.finish(station)
+    expect(subject.fare).to eq(Journey::PENALTY_FARE)
+  end
+
 
 end
