@@ -1,6 +1,6 @@
 class Station
-
   attr_reader :name, :zone
+
   def initialize(name, zone)
     @name = name
     @zone = zone
@@ -12,5 +12,5 @@ class Station
 
   def exit(exit_station)
     @exit_station = exit_station
-  end 
+  end
 end

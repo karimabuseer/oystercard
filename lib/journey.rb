@@ -1,5 +1,6 @@
 class Journey
   attr_reader :entry_station, :exit_station
+
   MINIMUM_FARE = 1
   PENALTY_FARE = 6
   def initialize(entry_station = nil)
@@ -19,7 +20,4 @@ class Journey
   def record
     { entry_station => exit_station }
   end
-
-
-
 end

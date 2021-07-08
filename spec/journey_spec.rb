@@ -1,11 +1,11 @@
 require 'journey'
 
 describe Journey do
-  let (:entry_station) {double :entry_station}
-  let (:exit_station) {double :exit_station }
-  let (:journey) { Journey.new(entry_station)}
+  let(:entry_station) { double :entry_station }
+  let(:exit_station) { double :exit_station }
+  let(:journey) { Journey.new(entry_station) }
   context 'When only given an entry station' do
-    before(:each) do 
+    before(:each) do
       journey = Journey.new(entry_station)
     end
 
@@ -19,16 +19,16 @@ describe Journey do
   end
 
   context 'When given an entrance and exit station' do
-    before(:each) do 
+    before(:each) do
       journey.leave_station(exit_station)
     end
 
     it 'Will store journey on touch out' do
-      expect(journey.log).to include(entry_station => exit_station)
+      expect(journey.record).to include(entry_station => exit_station)
     end
 
     it 'Will charge minimum fare' do
       expect(journey.fare).to eq(Journey::MINIMUM_FARE)
     end
-  end 
+  end
 end

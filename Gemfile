@@ -1,8 +1,8 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 group :test do
-  gem "rspec"
+  gem 'rspec'
   gem 'rubocop'
 end
 
-ruby "3.0.0"
+ruby '3.0.0'
