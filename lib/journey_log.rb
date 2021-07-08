@@ -13,7 +13,7 @@ class JourneyLog
   end
 
   def finish(exit_station)
-    @journey_class ||= Journey.new
+    current_journey
     @journey_class.leave_station(exit_station)
     update_log
   end
@@ -26,9 +26,9 @@ class JourneyLog
     ! @journey_class.nil?
   end
 
-  # def current_journey
-  #   @current_journey ||= Journey.new
-  # end
+  def current_journey
+    @journey_class ||= Journey.new
+  end
 
   def update_log
     @journeys << @journey_class.record
