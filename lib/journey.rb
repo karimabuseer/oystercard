@@ -15,7 +15,7 @@ class Journey
   end
 
   def fare
-    @entry_station.name && exit_station.name ? (1 + (@entry_station.zone - @exit_station.zone).abs) : PENALTY_FARE
+    @entry_station.name && @exit_station ? (1 + (@entry_station.zone - @exit_station.zone).abs) : PENALTY_FARE
   end
 
   def record
